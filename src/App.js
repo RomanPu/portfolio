@@ -7,6 +7,7 @@ import About from "./components/About";
 import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
+import sharedData from './data/portfolio_shared_data.json';
 
 class App extends Component {
 
@@ -15,7 +16,7 @@ class App extends Component {
     this.state = {
       foo: "bar",
       resumeData: {},
-      sharedData: {},
+      sharedData: sharedData
     };
   }
 
@@ -30,6 +31,7 @@ class App extends Component {
   }
 
   swapCurrentlyActiveLanguage(oppositeLangIconId) {
+    console.log("Swapping language icon");
     var pickedLangIconId =
       oppositeLangIconId === window.$primaryLanguageIconId
         ? window.$secondaryLanguageIconId
@@ -43,7 +45,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.loadSharedData();
     this.applyPickedLanguage(
       window.$primaryLanguage,
       window.$secondaryLanguageIconId
@@ -57,21 +58,6 @@ class App extends Component {
       cache: false,
       success: function (data) {
         this.setState({ resumeData: data });
-      }.bind(this),
-      error: function (xhr, status, err) {
-        alert(err);
-      },
-    });
-  }
-
-  loadSharedData() {
-    $.ajax({
-      url: `portfolio_shared_data.json`,
-      dataType: "json",
-      cache: false,
-      success: function (data) {
-        this.setState({ sharedData: data });
-        document.title = `${this.state.sharedData.basic_info.name}`;
       }.bind(this),
       error: function (xhr, status, err) {
         alert(err);
